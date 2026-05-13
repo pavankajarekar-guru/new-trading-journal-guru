@@ -1,33 +1,16 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
+  margin: 0;
   background: #050505;
   color: white;
   font-family: Arial;
 }
 
-.app {
-  min-height: 100vh;
-  padding-bottom: 90px;
+button {
+  transition: 0.2s;
 }
 
-.page {
-  padding: 20px;
-}
-
-.card {
-  background: #111;
-  border-radius: 20px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.gold {
-  color: #d4af37;
+button:hover {
+  opacity: 0.9;
 }
 
 input,
@@ -35,47 +18,10 @@ select,
 textarea {
   width: 100%;
   padding: 15px;
-  margin-top: 15px;
   border-radius: 14px;
   border: 1px solid #333;
   background: black;
   color: white;
-}
-
-button {
-  border: none;
-  border-radius: 14px;
-  padding: 15px;
-  cursor: pointer;
-}
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #111;
-  display: flex;
-  justify-content: space-around;
-  padding: 15px 10px;
-  border-top: 1px solid #222;
-}
-
-.nav-btn {
-  background: none;
-  color: white;
-  font-size: 14px;
-}
-
-.floating-btn {
-  position: fixed;
-  right: 20px;
-  bottom: 90px;
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background: #d4af37;
-  color: black;
-  font-size: 32px;
-  font-weight: bold;
+  margin-top: 15px;
+  box-sizing: border-box;
 }
