@@ -1,7 +1,33 @@
 import { useState } from 'react'
 
 export default function App() {
+
   const [page, setPage] = useState('dashboard')
+
+  const [trades, setTrades] = useState([])
+
+  const [form, setForm] = useState({
+    pair: '',
+    entry: '',
+    exit: '',
+    profit: ''
+  })
+
+  function addTrade() {
+
+    if (!form.pair) return
+
+    setTrades([...trades, form])
+
+    setForm({
+      pair: '',
+      entry: '',
+      exit: '',
+      profit: ''
+    })
+
+    setPage('journal')
+  }
 
   return (
     <div style={{
@@ -14,10 +40,9 @@ export default function App() {
 
       {/* Sidebar */}
       <div style={{
-        width: '260px',
+        width: '250px',
         background: '#111',
-        padding: '20px',
-        borderRight: '1px solid #222'
+        padding: '20px'
       }}>
 
         <h1 style={{
@@ -31,11 +56,15 @@ export default function App() {
           marginTop: '40px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '12px'
+          gap: '10px'
         }}>
 
           <button onClick={() => setPage('dashboard')}>
             Dashboard
+          </button>
+
+          <button onClick={() => setPage('add')}>
+            Add Trade
           </button>
 
           <button onClick={() => setPage('journal')}>
@@ -46,29 +75,19 @@ export default function App() {
             Analytics
           </button>
 
-          <button onClick={() => setPage('ai')}>
-            AI Assistant
-          </button>
-
-          <button onClick={() => setPage('calendar')}>
-            Economic Calendar
-          </button>
-
-          <button onClick={() => setPage('login')}>
-            Login
-          </button>
-
         </div>
 
       </div>
 
-      {/* Main Content */}
+      {/* Main */}
       <div style={{
         flex: 1,
         padding: '40px'
       }}>
 
+        {/* Dashboard */}
         {page === 'dashboard' && (
+
           <div>
 
             <h1 style={{
@@ -81,21 +100,135 @@ export default function App() {
             <div style={{
               marginTop: '30px',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px,1fr))',
+              gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))',
               gap: '20px'
             }}>
 
-              <Card title="Total P&L" value="+$4,250" color="lime" />
-              <Card title="Win Rate" value="72%" color="#d4af37" />
-              <Card title="Discipline Score" value="88/100" color="skyblue" />
-              <Card title="Trading Streak" value="14 Days" color="orange" />
+              <Card
+                title="Total Trades"
+                value={trades.length}
+                color="skyblue"
+              />
+
+              <Card
+                title="Win Rate"
+                value="72%"
+                color="#d4af37"
+              />
+
+              <Card
+                title="Discipline"
+                value="88/100"
+                color="lime"
+              />
 
             </div>
 
           </div>
+
         )}
 
+        {/* Add Trade */}
+        {page === 'add' && (
+
+          <div>
+
+            <h1 style={{
+              color: '#d4af37',
+              fontSize: '40px'
+            }}>
+              Add Trade
+            </h1>
+
+            <div style={{
+              marginTop: '30px',
+              background: '#111',
+              padding: '30px',
+              borderRadius: '20px',
+              maxWidth: '500px'
+            }}>
+
+              <input
+                placeholder="Pair"
+                value={form.pair}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    pair: e.target.value
+                  })
+                }
+                style={inputStyle}
+              />
+
+              <input
+                placeholder="Entry Price"
+                value={form.entry}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    entry: e.target.value
+                  })
+                }
+                style={{
+                  ...inputStyle,
+                  marginTop: '15px'
+                }}
+              />
+
+              <input
+                placeholder="Exit Price"
+                value={form.exit}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    exit: e.target.value
+                  })
+                }
+                style={{
+                  ...inputStyle,
+                  marginTop: '15px'
+                }}
+              />
+
+              <input
+                placeholder="Profit/Loss"
+                value={form.profit}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    profit: e.target.value
+                  })
+                }
+                style={{
+                  ...inputStyle,
+                  marginTop: '15px'
+                }}
+              />
+
+              <button
+                onClick={addTrade}
+                style={{
+                  marginTop: '20px',
+                  width: '100%',
+                  padding: '15px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: '#d4af37',
+                  fontWeight: 'bold'
+                }}
+              >
+                Save Trade
+              </button>
+
+            </div>
+
+          </div>
+
+        )}
+
+        {/* Journal */}
         {page === 'journal' && (
+
           <div>
 
             <h1 style={{
@@ -107,31 +240,69 @@ export default function App() {
 
             <div style={{
               marginTop: '30px',
-              background: '#111',
-              padding: '20px',
-              borderRadius: '20px'
+              display: 'grid',
+              gap: '20px'
             }}>
 
-              <h2>EUR/USD Buy</h2>
+              {trades.length === 0 && (
 
-              <p style={{ color: '#999' }}>
-                Entry: 1.0840
-              </p>
+                <div style={{
+                  background: '#111',
+                  padding: '20px',
+                  borderRadius: '20px'
+                }}>
+                  No trades added yet.
+                </div>
 
-              <p style={{ color: '#999' }}>
-                Exit: 1.0890
-              </p>
+              )}
 
-              <p style={{ color: 'lime' }}>
-                Profit: +$250
-              </p>
+              {trades.map((trade, index) => (
+
+                <div
+                  key={index}
+                  style={{
+                    background: '#111',
+                    padding: '25px',
+                    borderRadius: '20px'
+                  }}
+                >
+
+                  <h2 style={{
+                    color: '#d4af37'
+                  }}>
+                    {trade.pair}
+                  </h2>
+
+                  <p>
+                    Entry: {trade.entry}
+                  </p>
+
+                  <p>
+                    Exit: {trade.exit}
+                  </p>
+
+                  <h3 style={{
+                    color:
+                      trade.profit.includes('-')
+                        ? 'red'
+                        : 'lime'
+                  }}>
+                    {trade.profit}
+                  </h3>
+
+                </div>
+
+              ))}
 
             </div>
 
           </div>
+
         )}
 
+        {/* Analytics */}
         {page === 'analytics' && (
+
           <div>
 
             <h1 style={{
@@ -148,134 +319,18 @@ export default function App() {
               borderRadius: '20px'
             }}>
 
-              <h2>Weekly Performance</h2>
+              <h2>Total Trades: {trades.length}</h2>
 
-              <div style={{
-                marginTop: '20px',
-                height: '250px',
-                background: '#000',
-                borderRadius: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#666'
+              <p style={{
+                color: '#999'
               }}>
-                Charts Coming Soon
-              </div>
+                More analytics coming soon.
+              </p>
 
             </div>
 
           </div>
-        )}
 
-        {page === 'ai' && (
-          <div>
-
-            <h1 style={{
-              color: '#d4af37',
-              fontSize: '40px'
-            }}>
-              AI Assistant
-            </h1>
-
-            <div style={{
-              marginTop: '30px',
-              display: 'grid',
-              gap: '20px'
-            }}>
-
-              <AIBox text="EUR/USD bullish during London session." />
-              <AIBox text="Avoid overtrading during NY session." />
-              <AIBox text="Gold volatility expected after CPI news." />
-
-            </div>
-
-          </div>
-        )}
-
-        {page === 'calendar' && (
-          <div>
-
-            <h1 style={{
-              color: '#d4af37',
-              fontSize: '40px'
-            }}>
-              Economic Calendar
-            </h1>
-
-            <div style={{
-              marginTop: '30px',
-              display: 'grid',
-              gap: '20px'
-            }}>
-
-              <Event
-                title="USD CPI News"
-                impact="High Impact"
-              />
-
-              <Event
-                title="FOMC Meeting"
-                impact="High Impact"
-              />
-
-              <Event
-                title="NFP Release"
-                impact="Extreme Impact"
-              />
-
-            </div>
-
-          </div>
-        )}
-
-        {page === 'login' && (
-          <div>
-
-            <h1 style={{
-              color: '#d4af37',
-              fontSize: '40px'
-            }}>
-              Login
-            </h1>
-
-            <div style={{
-              marginTop: '30px',
-              background: '#111',
-              padding: '30px',
-              borderRadius: '20px',
-              maxWidth: '400px'
-            }}>
-
-              <input
-                placeholder="Email"
-                style={inputStyle}
-              />
-
-              <input
-                placeholder="Password"
-                type="password"
-                style={{
-                  ...inputStyle,
-                  marginTop: '15px'
-                }}
-              />
-
-              <button style={{
-                marginTop: '20px',
-                width: '100%',
-                padding: '14px',
-                borderRadius: '12px',
-                border: 'none',
-                background: '#d4af37',
-                fontWeight: 'bold'
-              }}>
-                Login
-              </button>
-
-            </div>
-
-          </div>
         )}
 
       </div>
@@ -303,36 +358,6 @@ function Card({ title, value, color }) {
       }}>
         {value}
       </h1>
-    </div>
-  )
-}
-
-function AIBox({ text }) {
-  return (
-    <div style={{
-      background: '#111',
-      padding: '20px',
-      borderRadius: '20px'
-    }}>
-      {text}
-    </div>
-  )
-}
-
-function Event({ title, impact }) {
-  return (
-    <div style={{
-      background: '#111',
-      padding: '20px',
-      borderRadius: '20px'
-    }}>
-      <h2>{title}</h2>
-
-      <p style={{
-        color: '#d4af37'
-      }}>
-        {impact}
-      </p>
     </div>
   )
 }
