@@ -1,25 +1,81 @@
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   background: #050505;
   color: white;
   font-family: Arial;
 }
 
-button {
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  background: #1a1a1a;
-  color: white;
+.app {
+  min-height: 100vh;
+  padding-bottom: 90px;
 }
 
-input {
+.page {
+  padding: 20px;
+}
+
+.card {
+  background: #111;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.gold {
+  color: #d4af37;
+}
+
+input,
+select,
+textarea {
   width: 100%;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 14px;
   border: 1px solid #333;
   background: black;
   color: white;
-  margin-top: 12px;
+}
+
+button {
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #111;
+  display: flex;
+  justify-content: space-around;
+  padding: 15px 10px;
+  border-top: 1px solid #222;
+}
+
+.nav-btn {
+  background: none;
+  color: white;
+  font-size: 14px;
+}
+
+.floating-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 90px;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #d4af37;
+  color: black;
+  font-size: 32px;
+  font-weight: bold;
 }
