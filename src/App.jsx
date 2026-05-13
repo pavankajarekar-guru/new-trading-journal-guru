@@ -1,10 +1,12 @@
-import { supabase } from './supabase'
 import { useState } from 'react'
 
+import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard'
 import AddTrade from './components/AddTrade'
 import Journal from './components/Journal'
 import Analytics from './components/Analytics'
+
+import { supabase } from './supabase'
 
 export default function App() {
 
@@ -16,49 +18,41 @@ export default function App() {
     pair: '',
     profit: ''
   })
+
   async function addTrade() {
 
-  if (!form.pair) return
+    if (!form.pair) return
 
-  await supabase
-    .from('trades')
-    .insert([form])
+    await supabase
+      .from('trades')
+      .insert([form])
 
-  setTrades([
-    ...trades,
-    form
-  ])
+    setTrades([
+      ...trades,
+      form
+    ])
 
-  setForm({
-    pair: '',
-    profit: ''
-  })
+    setForm({
+      pair: '',
+      profit: ''
+    })
 
-  setPage('journal')
-}
+    setPage('journal')
+  }
+
   return (
-    <div className="app">
+    <div style={{
+      display: 'flex',
+      minHeight: '100vh',
+      background: '#050505'
+    }}>
 
-      {/* Header */}
+      <Sidebar setPage={setPage} />
+
       <div style={{
-        padding: '20px'
+        flex: 1,
+        padding: '30px'
       }}>
-
-        <h1 className="gold">
-          Trading Journal Guru
-        </h1>
-
-        <p style={{
-          color: '#777',
-          marginTop: '5px'
-        }}>
-          Mobile Trading Journal
-        </p>
-
-      </div>
-
-      {/* Pages */}
-      <div className="page">
 
         {page === 'dashboard' &&
           <Dashboard trades={trades} />
@@ -79,40 +73,6 @@ export default function App() {
         {page === 'analytics' &&
           <Analytics trades={trades} />
         }
-
-      </div>
-
-      {/* Floating Button */}
-      <button
-        className="floating-btn"
-        onClick={() => setPage('add')}
-      >
-        +
-      </button>
-
-      {/* Bottom Navigation */}
-      <div className="bottom-nav">
-
-        <button
-          className="nav-btn"
-          onClick={() => setPage('dashboard')}
-        >
-          Home
-        </button>
-
-        <button
-          className="nav-btn"
-          onClick={() => setPage('journal')}
-        >
-          Journal
-        </button>
-
-        <button
-          className="nav-btn"
-          onClick={() => setPage('analytics')}
-        >
-          Analytics
-        </button>
 
       </div>
 
