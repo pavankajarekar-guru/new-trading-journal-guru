@@ -2,46 +2,76 @@ export default function Sidebar({ setPage }) {
 
   return (
     <div style={{
-      width: '250px',
+      width: '260px',
       background: '#111',
-      padding: '20px'
+      padding: '25px',
+      borderRight: '1px solid #222'
     }}>
 
       <h1 style={{
-        color: '#d4af37'
+        color: '#d4af37',
+        fontSize: '28px'
       }}>
         Trading Journal Guru
       </h1>
 
+      <p style={{
+        color: '#777',
+        marginTop: '5px'
+      }}>
+        Professional Trading App
+      </p>
+
       <div style={{
+        marginTop: '40px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px',
-        marginTop: '30px'
+        gap: '15px'
       }}>
 
-        <button onClick={() => setPage('dashboard')}>
-          Dashboard
-        </button>
+        <NavButton
+          text="Dashboard"
+          onClick={() => setPage('dashboard')}
+        />
 
-        <button onClick={() => setPage('add')}>
-          Add Trade
-        </button>
+        <NavButton
+          text="Add Trade"
+          onClick={() => setPage('add')}
+        />
 
-        <button onClick={() => setPage('journal')}>
-          Journal
-        </button>
+        <NavButton
+          text="Journal"
+          onClick={() => setPage('journal')}
+        />
 
-        <button onClick={() => setPage('login')}>
-          Login
-        </button>
-
-        <button onClick={() => setPage('analytics')}>
-  Analytics
-</button>
+        <NavButton
+          text="Analytics"
+          onClick={() => setPage('analytics')}
+        />
 
       </div>
 
     </div>
+  )
+}
+
+function NavButton({ text, onClick }) {
+
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        background: '#1a1a1a',
+        color: 'white',
+        padding: '16px',
+        border: 'none',
+        borderRadius: '14px',
+        cursor: 'pointer',
+        textAlign: 'left',
+        fontSize: '16px'
+      }}
+    >
+      {text}
+    </button>
   )
 }
