@@ -79,6 +79,20 @@ export default function App() {
 {page === 'analytics' &&
   <Analytics trades={trades} />
 }
+        useEffect(() => {
+  loadTrades()
+}, [])
+
+async function loadTrades() {
+
+  const { data } = await supabase
+    .from('trades')
+    .select('*')
+
+  if (data) {
+    setTrades(data)
+  }
+}
       </div>
 
     </div>
