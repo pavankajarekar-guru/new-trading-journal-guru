@@ -1,3 +1,4 @@
+import { supabase } from './supabase'
 import { useState } from 'react'
 
 import Dashboard from './components/Dashboard'
@@ -15,22 +16,26 @@ export default function App() {
     pair: '',
     profit: ''
   })
+  async function addTrade() {
 
-  function addTrade() {
+  if (!form.pair) return
 
-    setTrades([
-      ...trades,
-      form
-    ])
+  await supabase
+    .from('trades')
+    .insert([form])
 
-    setForm({
-      pair: '',
-      profit: ''
-    })
+  setTrades([
+    ...trades,
+    form
+  ])
 
-    setPage('journal')
-  }
+  setForm({
+    pair: '',
+    profit: ''
+  })
 
+  setPage('journal')
+}
   return (
     <div className="app">
 
