@@ -75,7 +75,10 @@ export default function App() {
         {page === 'login' &&
           <Login />
         }
-
+        
+{page === 'analytics' &&
+  <Analytics trades={trades} />
+}
       </div>
 
     </div>
