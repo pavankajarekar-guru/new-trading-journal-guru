@@ -1,32 +1,22 @@
-import Analytics from './components/Analytics'
-import { useEffect } from 'react'
-import { supabase } from './supabase'
 import { useState } from 'react'
 
-import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard'
 import AddTrade from './components/AddTrade'
 import Journal from './components/Journal'
-import Login from './components/Login'
-
-import { sampleTrades } from './data/trades'
+import Analytics from './components/Analytics'
 
 export default function App() {
 
   const [page, setPage] = useState('dashboard')
 
-  const [trades, setTrades] = useState(sampleTrades)
+  const [trades, setTrades] = useState([])
 
   const [form, setForm] = useState({
     pair: '',
-    entry: '',
-    exit: '',
     profit: ''
   })
 
   function addTrade() {
-
-    if (!form.pair) return
 
     setTrades([
       ...trades,
@@ -35,8 +25,6 @@ export default function App() {
 
     setForm({
       pair: '',
-      entry: '',
-      exit: '',
       profit: ''
     })
 
@@ -44,17 +32,28 @@ export default function App() {
   }
 
   return (
-    <div style={{
-      display: 'flex',
-      minHeight: '100vh'
-    }}>
+    <div className="app">
 
-      <Sidebar setPage={setPage} />
-
+      {/* Header */}
       <div style={{
-        flex: 1,
-        padding: '40px'
+        padding: '20px'
       }}>
+
+        <h1 className="gold">
+          Trading Journal Guru
+        </h1>
+
+        <p style={{
+          color: '#777',
+          marginTop: '5px'
+        }}>
+          Mobile Trading Journal
+        </p>
+
+      </div>
+
+      {/* Pages */}
+      <div className="page">
 
         {page === 'dashboard' &&
           <Dashboard trades={trades} />
@@ -72,27 +71,44 @@ export default function App() {
           <Journal trades={trades} />
         }
 
-        {page === 'login' &&
-          <Login />
+        {page === 'analytics' &&
+          <Analytics trades={trades} />
         }
-        
-{page === 'analytics' &&
-  <Analytics trades={trades} />
-}
-        useEffect(() => {
-  loadTrades()
-}, [])
 
-async function loadTrades() {
+      </div>
 
-  const { data } = await supabase
-    .from('trades')
-    .select('*')
+      {/* Floating Button */}
+      <button
+        className="floating-btn"
+        onClick={() => setPage('add')}
+      >
+        +
+      </button>
 
-  if (data) {
-    setTrades(data)
-  }
-}
+      {/* Bottom Navigation */}
+      <div className="bottom-nav">
+
+        <button
+          className="nav-btn"
+          onClick={() => setPage('dashboard')}
+        >
+          Home
+        </button>
+
+        <button
+          className="nav-btn"
+          onClick={() => setPage('journal')}
+        >
+          Journal
+        </button>
+
+        <button
+          className="nav-btn"
+          onClick={() => setPage('analytics')}
+        >
+          Analytics
+        </button>
+
       </div>
 
     </div>
