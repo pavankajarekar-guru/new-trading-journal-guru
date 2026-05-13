@@ -36,6 +36,10 @@ export default function Sidebar({ setPage }) {
           Login
         </button>
 
+        <button onClick={() => setPage('analytics')}>
+  Analytics
+</button>
+
       </div>
 
     </div>
