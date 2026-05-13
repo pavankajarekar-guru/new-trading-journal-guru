@@ -266,4 +266,7 @@ const selectStyle = {
   background: 'black',
   color: 'white',
   border: '1px solid #333'
+  await supabase
+  .from('trades')
+  .insert([form])
 }
